@@ -9,14 +9,14 @@ passwords = [x.strip('\n') for x in file]
 def connecting_to_server():
     connection = socket.socket()
     argv = sys.argv
-    host, port = argv[1], int(argv[2])
+    host, port = '127.0.0.1', 9090
     connection.connect((host, port))
     for i in brutforce_password(passwords):
         password = i
         connection.send(password.encode())
         answer = connection.recv(1024)
         if answer.decode() == 'Connection success!':
-            print(password)
+            print("Correct password", password)
             break
 
     connection.close()
