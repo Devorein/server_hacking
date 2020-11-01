@@ -4,7 +4,12 @@ import socket
 import random
 
 passwords = [
-    'chance'
+    'chance', 'frankie', 'killer', 'forest', 'penguin'
+    'jackson', 'rangers', 'monica', 'qweasdzxc', 'explorer'
+    'gabriel', 'chelsea', 'simpsons', 'duncan', 'valentin',
+    'classic', 'titanic', 'logitech', 'fantasy', 'scotland',
+    'pamela', 'christin', 'birdie', 'benjamin', 'jonathan',
+    'knight', 'morgan', 'melissa', 'darkness', 'cassie'
 ]
 
 def generate_password():
