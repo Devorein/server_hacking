@@ -1,26 +1,11 @@
-from hstest.stage_test import StageTest
-from hstest.test_case import TestCase
-from hstest.check_result import CheckResult
 from threading import Thread
 from time import sleep
 import socket
 import random
 
-CheckResult.correct = lambda: CheckResult(True, '')
-CheckResult.wrong = lambda feedback: CheckResult(False, feedback)
-
-abc = 'abcdefghijklmnopqrstuvwxyz1234567890'
-
-
 passwords = [
-    'chance', 'frankie', 'killer', 'forest', 'penguin'
-    'jackson', 'rangers', 'monica', 'qweasdzxc', 'explorer'
-    'gabriel', 'chelsea', 'simpsons', 'duncan', 'valentin',
-    'classic', 'titanic', 'logitech', 'fantasy', 'scotland',
-    'pamela', 'christin', 'birdie', 'benjamin', 'jonathan',
-    'knight', 'morgan', 'melissa', 'darkness', 'cassie'
+    'chance'
 ]
-
 
 def generate_password():
     '''function - generator of all passwords from dictionary'''
@@ -41,10 +26,9 @@ def random_password():
         for j in range(len(pas)))
 
 
-class Hacking(StageTest):
+class Hacking():
 
-    def __init__(self, module):
-        super().__init__(module)
+    def __init__(self):
         self.ready = False
         self.sock = None
         self.serv = None
@@ -77,6 +61,7 @@ class Hacking(StageTest):
             conn, addr = self.sock.accept()
             self.connected = True
             conn.settimeout(15)
+            print("Server listening on port 9090")
             while True:
                 data = conn.recv(1024)
                 self.message.append(data.decode('utf8'))
@@ -97,29 +82,9 @@ class Hacking(StageTest):
     def generate(self):
         self.message = []
         self.password = random_password()
+        print("Correct password", self.password)
         self.start_server()
-        return [TestCase(args=['localhost', '9090'],
-                         attach=[self.password])]
-
-    def check(self, reply, attach):
-        self.stop_server()
-
-        if not self.connected:
-            return CheckResult.wrong("You didn't connect to the server")
-
-        real_password = attach[0]
-        printed_password = reply.split('\n')[0]
-        if reply.split('\n')[0] != real_password:
-            return CheckResult.wrong(
-                'The password you printed is not correct\n'
-                'You printed: \"' + printed_password + '\"\n'
-                'Correct password: \"' + real_password + '\"'
-            )
-
-        return CheckResult.correct()
 
 
-if __name__ == '__main__':
-    test = Hacking('hacking.hack')
-    test.run_tests()
-    test.stop_server()
+test = Hacking()
+test.generate()
