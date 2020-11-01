@@ -18,8 +18,6 @@ def connecting_to_server():
         if answer.decode() == 'Connection success!':
             print("Correct password", password)
             break
-        elif answer.decode() == "Wrong password!":
-            print("Wrong password", password)
 
     connection.close()
 
